@@ -3,19 +3,22 @@ package com.soft.microservices.model;
 /**
  * Created by jcarlos on 07/02/2019.
  */
-import jdk.nashorn.internal.objects.annotations.Getter;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 /*
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString(exclude = {"economicActivity","billingMode","invoices"})
 */
 
 @Entity
+@Getter
+@Setter
+@ToString(exclude = {"id"})
 @Table(name = "clients")
 public class Client implements Serializable {
 
