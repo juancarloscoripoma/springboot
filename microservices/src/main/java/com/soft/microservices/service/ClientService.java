@@ -7,7 +7,12 @@ import org.springframework.data.domain.Page;
 public interface ClientService {
 
     Client save(ClientDTO clientDTO);
+
+    Client updateClient(ClientDTO clientDTO);
+
     Page<Client> findAll(String orderBy, String direction, int page, int size);
+
     Client findOne(Long id);
+
     void delete(Long id);
 }

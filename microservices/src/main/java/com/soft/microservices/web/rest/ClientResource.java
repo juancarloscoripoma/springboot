@@ -36,7 +36,6 @@ public class ClientResource {
     }
 
     @PostMapping("/clients")
-    //@Timed
     public ResponseEntity<Client> createClient(@Valid @RequestBody ClientDTO clientDTO) throws URISyntaxException {
         log.debug("REST request to save Client : {}", clientDTO);
         if (clientDTO.getId() != 0) { //null
@@ -49,8 +48,7 @@ public class ClientResource {
     }
 
     //@GetMapping("/clients")
-    //@Timed
-    @RequestMapping(value = "/clients", params = { "orderBy", "direction", "page", "size" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/clients", params = {"orderBy", "direction", "page", "size"}, method = RequestMethod.GET)
     public ResponseEntity<List<Client>> getAllClients(@RequestParam("orderBy") String orderBy,
                                                       @RequestParam("direction") String direction,
                                                       @RequestParam("page") int page,
@@ -62,7 +60,6 @@ public class ClientResource {
     }
 
     @GetMapping("/client/{id}")
-    //@Timed
     public ResponseEntity<Client> getClient(@PathVariable Long id) {
         log.debug("REST request to get Client : {}", id);
         Client client = clientService.findOne(id);
@@ -74,12 +71,22 @@ public class ClientResource {
     }
 
     @DeleteMapping("/client/{id}")
-    //@Timed
-    //@Secured({AuthoritiesConstants.ADMIN})
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         log.debug("REST request to delete Client : {}", id);
         clientService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @PutMapping("/clients")
+    public ResponseEntity<Client> updateClient(@Valid @RequestBody ClientDTO clientDTO) throws URISyntaxException {
+        log.debug("REST request to update Client : {}", clientDTO);
+        if (clientDTO.getId() == 0) {//null
+            return createClient(clientDTO);
+        }
+        Client result = clientService.updateClient(clientDTO);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, clientDTO.getId().toString()))
+                .body(result);
     }
 
 

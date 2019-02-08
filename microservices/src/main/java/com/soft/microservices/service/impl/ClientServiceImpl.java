@@ -36,6 +36,17 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client updateClient(ClientDTO clientDTO) {
+        log.debug("Request to Update By client", clientDTO);
+        Client client = clientRepository.findOne(clientDTO.getId());
+        client.setNit(clientDTO.getNit());
+        client.setReasonsocial(clientDTO.getReasonsocial());
+
+        clientRepository.save(client);
+        return client;
+    }
+
+    @Override
     public Page<Client> findAll(String orderBy, String direction, int page, int size) {
         Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, orderBy);
         return clientRepository.findAll(pageable);
