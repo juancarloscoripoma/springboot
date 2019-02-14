@@ -7,6 +7,7 @@ import com.soft.demoMysql.web.rest.util.HeaderUtil;
 import com.soft.demoMysql.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ public class BookResource {
     }
 
 
+    @ApiOperation(value = "Save a book")
     @PostMapping("/books")
     public ResponseEntity<Book> createUser(@Valid @RequestBody BookDTO bookDTO) throws URISyntaxException {
         log.debug("REST request to save Book : {}", bookDTO);
@@ -57,18 +59,23 @@ public class BookResource {
     })
 
     @ApiIgnore(
-            "Ignored because swagger ui shows the wrong params, " +
-                    "instead they are explained in the implicit params"
+            "Ignored because swagger ui shows the wrong params, " + "instead they are explained in the implicit params"
     ) Pageable pageable
     */
-
-    @RequestMapping(value = "/books", params = { "orderBy", "direction", "page", "size" }, method = RequestMethod.GET)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderBy", dataType = "string", paramType = "query", value = "Order by the column.",defaultValue = "id"),
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)",defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.",defaultValue = "50"),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "+"Default sort order is ascending. "+"Multiple sort criteria are supported.")
+    })
+    @ApiOperation(value = "Getting all books")
+    @RequestMapping(value = "/books", params = { "orderBy", "sort", "page", "size" }, method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getAllBooks(@RequestParam("orderBy") String orderBy,
-                                                  @RequestParam("direction") String direction,
+                                                  @RequestParam("sort") String sort,
                                                   @RequestParam("page") int page,
                                                   @RequestParam("size") int size) throws URISyntaxException {
         log.debug("REST request to get a page of Books");
-        Page<Book> books = bookService.findAll(orderBy, direction, page, size);
+        Page<Book> books = bookService.findAll(orderBy, sort, page, size);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(books, "/api/books");
         return new ResponseEntity<>(books.getContent(), headers, HttpStatus.OK);
     }
