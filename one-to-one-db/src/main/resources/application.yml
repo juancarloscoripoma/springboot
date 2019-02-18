@@ -2,7 +2,7 @@
 # the defined resource server. Note that there can't be 2 different root nodes, so datasource falls under the "spring" node.
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/onetoone
+    url: jdbc:mysql://localhost:3306/relation?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: mysql
     driver-class: com.mysql.jdbc.Driver
@@ -13,12 +13,15 @@ spring:
     data: classpath:/sql/2.insertData.sql
   #
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: MYSQL
     show-sql: true
-    hibernate:
-      #ddl-auto: create
-      show_sql: true
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
+      #hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
 
 server:
   port: 9797

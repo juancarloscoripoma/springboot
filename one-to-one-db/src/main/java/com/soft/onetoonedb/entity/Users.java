@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
@@ -13,17 +14,22 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Users {
+public class Users implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Basic
-    private String name;
+    @Column(name = "firstName")
+    private String firstName;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    //@OneToOne/*(cascade = CascadeType.ALL)*/ // fetch = FetchType.LAZY
+    /*@JoinColumn(unique = true) *///(name = "address_id"/*, referencedColumnName = "id"*/)
+    /*
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
     private Address address;
+    */
 
 }

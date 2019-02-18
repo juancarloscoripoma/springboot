@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "address")
@@ -13,16 +14,20 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Address {
+public class Address implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Basic
+    @Column(name = "addressLine1")
     private String addressLine1;
 
-    @OneToOne(mappedBy = "address")
+    //@OneToOne(mappedBy = "address")
+    /*
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
     private Users users;
+    */
 
 }

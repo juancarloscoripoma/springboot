@@ -1,40 +1,29 @@
-/*create database demomicroservice;*/
-/*
-use demomicroservice;
-show tables;
-*/
-drop table if exists `address`^
-create table address(
-	  id bigint not null AUTO_INCREMENT,
-    addressLine1 varchar(100),
-    primary key (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8^
+-- USE relation;
+-- constraint_schema is the name of the database
+-- select * from information_schema.referential_constraints where constraint_schema = 'relation'
+-- ALTER TABLE users DROP FOREIGN KEY fk_users_address_id;
+-- DROP database relation^
+-- CREATE database relation^
 
-drop table if exists `users`^
-create table users(
-	  id bigint not null AUTO_INCREMENT,
-    name varchar(200),
-    address_id INT(10),
-    primary key (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8^
-/*
-CREATE UNIQUE INDEX id_unique_nit ON clients(nit);
-ALTER TABLE clients DROP INDEX id_unique_nit;
-DROP INDEX id_unique_nit ON clients;
-*/
-/*
-select * from clients;
-desc clients;
-*/
+--ALTER TABLE users DROP FOREIGN KEY fk_users_address_id^
+drop table if exists address^
+drop table if exists users^
 
+create table address
+(
+   id               bigint not null AUTO_INCREMENT,
+   addressLine1 		varchar(100),
+   primary key (id)
+)/*ENGINE=InnoDB DEFAULT CHARSET=utf8*/^
+
+create table users
+(
+   id             bigint not null AUTO_INCREMENT,
+   firstName			varchar(200),
+   /*address_id     bigint not null,*/
+   primary key (id)
+)/*ENGINE=InnoDB DEFAULT CHARSET=utf8*/^
 /*
-insert into clients (nit,reasonsocial)
-values(6405588,'Carlos');
-
-insert into clients (nit,reasonsocial)
-values(6505588,'Juan Carlos');
-
---error, because this nit is duplicated
-insert into clients (nit,reasonsocial)
-values(6405588,'Juan Carlos');
+alter table users add constraint fk_users_address_id foreign key (address_id)
+      references address (id) on delete restrict on update restrict^
 */
