@@ -20,10 +20,10 @@ create table users
 (
    id             bigint not null AUTO_INCREMENT,
    firstname			varchar(200),
-   addressid     bigint /*not null*/,
+   address_id     bigint not null,
    primary key (id)
 )/*ENGINE=InnoDB DEFAULT CHARSET=utf8*/^
 
-alter table users add constraint fk_users_address_id foreign key (addressid)
+alter table users add constraint fk_users_address_id foreign key (address_id)
       references address (id) on delete restrict on update restrict^
 

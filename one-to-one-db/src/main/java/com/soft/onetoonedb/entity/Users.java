@@ -27,7 +27,7 @@ public class Users implements Serializable {
     /*@JoinColumn(unique = true) *///(name = "address_id"/*, referencedColumnName = "id"*/)
 
     @OneToOne//(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressid", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     @NonNull
     private Address address;
 
