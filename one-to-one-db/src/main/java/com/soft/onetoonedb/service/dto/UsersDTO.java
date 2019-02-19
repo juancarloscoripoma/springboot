@@ -9,7 +9,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UsersDTO {
     private Long id;
     @NotEmpty
-    private String firstName;
+    private String firstname;
+
     @NotEmpty
-    private String addressLine1;
+    private String addressline1;
 }

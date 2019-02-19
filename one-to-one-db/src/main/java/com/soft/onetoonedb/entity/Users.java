@@ -1,9 +1,6 @@
 package com.soft.onetoonedb.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @ToString
+@RequiredArgsConstructor
 public class Users implements Serializable {
 
     @Id
@@ -21,15 +19,16 @@ public class Users implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "firstName")
-    private String firstName;
+    @Column(name = "firstname")
+    @NonNull
+    private String firstname;
 
     //@OneToOne/*(cascade = CascadeType.ALL)*/ // fetch = FetchType.LAZY
     /*@JoinColumn(unique = true) *///(name = "address_id"/*, referencedColumnName = "id"*/)
-    /*
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+
+    @OneToOne//(fetch = FetchType.LAZY)
+    @JoinColumn(name = "addressid", referencedColumnName = "id")
+    @NonNull
     private Address address;
-    */
 
 }

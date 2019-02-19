@@ -30,7 +30,7 @@ public class UserResource {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Users> createCity(@Valid @RequestBody UsersDTO usersDTO) throws URISyntaxException {
+    public ResponseEntity<Users> createUser(@Valid @RequestBody UsersDTO usersDTO) throws URISyntaxException {
         log.debug("REST request to save Users : {}", usersDTO);
         if (usersDTO.getId() != null && usersDTO.getId() != 0 ) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("usersDTO", "idexists", "A new usersDTO cannot already have an ID")).body(null);

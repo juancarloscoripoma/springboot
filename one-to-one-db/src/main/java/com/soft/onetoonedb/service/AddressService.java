@@ -5,4 +5,5 @@ import com.soft.onetoonedb.service.dto.AddressDTO;
 
 public interface AddressService {
     Address save(AddressDTO addressDTO);
+    void save(Address address);
 }

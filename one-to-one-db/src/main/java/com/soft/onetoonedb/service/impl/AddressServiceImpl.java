@@ -20,8 +20,13 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address save(AddressDTO addressDTO) {
         Address address = new Address();
-        address.setAddressLine1(addressDTO.getAddressLine1());
+        address.setAddressline1(addressDTO.getAddressline1());
         address = addressRepository.save(address);
         return address;
+    }
+
+    @Override
+    public void save(Address address) {
+        addressRepository.save(address);
     }
 }

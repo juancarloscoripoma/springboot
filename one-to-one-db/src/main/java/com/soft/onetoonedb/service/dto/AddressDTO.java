@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class AddressDTO {
     private Long id;
-    private String addressLine1;
+    private String addressline1;
 }
