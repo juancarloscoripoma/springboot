@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,5 +25,5 @@ public class EmployeeDTO implements Serializable {
     @NonNull
     private BigDecimal salary;
 
-    private Phone phone;
+    private List<Phone> phone;
 }

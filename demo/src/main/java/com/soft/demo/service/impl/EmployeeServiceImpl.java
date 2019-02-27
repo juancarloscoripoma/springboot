@@ -15,6 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
@@ -34,28 +38,37 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         log.debug("Request to save Employee : {}", employeeDTO);
+        List<Phone> result = new ArrayList<>();
+        List<Phone> auxPhone = new ArrayList<>();
+
         Employee employee = new Employee(employeeDTO.getFirstname(),employeeDTO.getLastname(),employeeDTO.getSalary());
 
-        Phone phone = new Phone(employeeDTO.getPhone().getType(), employeeDTO.getPhone().getAreacode(), employeeDTO.getPhone().getNumber(), employee);
+        Employee finalEmployee = employee;
+        employeeDTO.getPhone().forEach((pho) -> {
+            Phone phone = new Phone(pho.getType(), pho.getAreacode(), pho.getNumber(), finalEmployee);
+            result.add(phone);
+        });
 
         employee = employeeRepository.save(employee);
-        phone = phoneRepository.save(phone);
-
+        result.forEach((phone -> {
+            phone = phoneRepository.save(phone);
+            auxPhone.add(phone);
+        }));
 
         employeeDTO.setId(employee.getId());
-        employeeDTO.getPhone().setId(phone.getId());
+        employeeDTO.setPhone(auxPhone);
         return employeeDTO;
     }
 
     @Override
     public Page<EmployeeDTO> findAll(String orderBy, String direction, int page, int size) {
         log.debug("Request to get all Employees");
-        if(direction.equalsIgnoreCase("DESC")){
+        if (direction.equalsIgnoreCase("DESC")) {
             sort = Sort.Direction.DESC;
         }
         Pageable pageable = new PageRequest(page, size, sort, orderBy);
 
         Page<Employee> result = employeeRepository.findAll(pageable);
-        return result.map(emp -> new EmployeeDTO( emp.getId(), emp.getFirstname(), emp.getLastname(), emp.getSalary() ) );
+        return result.map(emp -> new EmployeeDTO(emp.getId(), emp.getFirstname(), emp.getLastname(), emp.getSalary()));
     }
 }
