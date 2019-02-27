@@ -4,6 +4,9 @@ import com.soft.demo.rest.util.HeaderUtil;
 import com.soft.demo.rest.util.PaginationUtil;
 import com.soft.demo.service.PhoneService;
 import com.soft.demo.service.dto.PhoneDTO;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,5 +53,23 @@ public class PhoneResource {
         Page<PhoneDTO> page = phoneService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/phones");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderBy", dataType = "string", paramType = "query", value = "Order by the column.",defaultValue = "id"),
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)",defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.",defaultValue = "50"),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "+"Default sort order is ascending. "+"Multiple sort criteria are supported.")
+    })
+    @ApiOperation(value = "Getting all phone")
+    @GetMapping(value = "/phones/{id}", params = {"orderBy", "sort", "page", "size"})
+    public ResponseEntity<List<PhoneDTO>> getAllPhoneById(@RequestParam("orderBy") String orderBy,
+                                                          @RequestParam("sort") String sort,
+                                                          @RequestParam("page") int page,
+                                                          @RequestParam("size") int size,
+                                                          @PathVariable Long id) {
+        Page<PhoneDTO> result = phoneService.findPhoneById(orderBy, sort, page, size, id);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(result, "/api/phones/{id}");
+        return new ResponseEntity<>(result.getContent(), headers, HttpStatus.OK);
     }
 }

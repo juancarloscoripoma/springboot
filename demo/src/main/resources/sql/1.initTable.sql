@@ -5,6 +5,7 @@
 -- DROP database demo^
 -- CREATE database demo^
 
+-- -------------- one to many ------------------
 ALTER TABLE phone DROP FOREIGN KEY fk_phone_employee_id^
 drop table if exists phone^
 drop table if exists employee^
@@ -30,4 +31,4 @@ create table phone
 
 alter table phone add constraint fk_phone_employee_id foreign key (employee_id)
       references employee (id) on delete restrict on update restrict^
-
+-- -------------- end one to many --------------

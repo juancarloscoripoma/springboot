@@ -52,7 +52,7 @@ public class EmployeeResource {
             @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.",defaultValue = "50"),
             @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "+"Default sort order is ascending. "+"Multiple sort criteria are supported.")
     })
-    @ApiOperation(value = "Getting all books")
+    @ApiOperation(value = "Getting all employee")
     @GetMapping(value = "/employees", params = {"orderBy", "sort", "page", "size"})
     public ResponseEntity<List<EmployeeDTO>> getAllEmployee(@RequestParam("orderBy") String orderBy,
                                                             @RequestParam("sort") String sort,
