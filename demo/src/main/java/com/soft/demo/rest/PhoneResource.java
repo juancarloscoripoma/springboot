@@ -35,10 +35,11 @@ public class PhoneResource {
     public PhoneResource(PhoneService phoneService) {
         this.phoneService = phoneService;
     }
+
     @PostMapping("/phones")
     public ResponseEntity<PhoneDTO> createPhone(@Valid @RequestBody PhoneDTO phoneDTO) throws URISyntaxException {
         log.debug("REST request to save Phone : {}", phoneDTO);
-        if (phoneDTO.getId() != null) {
+        if (phoneDTO.getId() != null && phoneDTO.getId() != 0) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new phone cannot already have an ID")).body(null);
         }
         PhoneDTO result = phoneService.save(phoneDTO);
@@ -56,10 +57,10 @@ public class PhoneResource {
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderBy", dataType = "string", paramType = "query", value = "Order by the column.",defaultValue = "id"),
-            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)",defaultValue = "0"),
-            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.",defaultValue = "50"),
-            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "+"Default sort order is ascending. "+"Multiple sort criteria are supported.")
+            @ApiImplicitParam(name = "orderBy", dataType = "string", paramType = "query", value = "Order by the column.", defaultValue = "id"),
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.", defaultValue = "50"),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). " + "Default sort order is ascending. " + "Multiple sort criteria are supported.")
     })
     @ApiOperation(value = "Getting all phone")
     @GetMapping(value = "/phones/{id}", params = {"orderBy", "sort", "page", "size"})

@@ -1,4 +1,4 @@
--- USE relation;
+-- USE demo;
 -- constraint_schema is the name of the database
 -- select * from information_schema.referential_constraints where constraint_schema = 'relation'
 -- ALTER TABLE phone DROP FOREIGN KEY fk_phone_employee_id;
@@ -32,3 +32,32 @@ create table phone
 alter table phone add constraint fk_phone_employee_id foreign key (employee_id)
       references employee (id) on delete restrict on update restrict^
 -- -------------- end one to many --------------
+
+-- -------------- one to one -------------------
+-- USE demo;
+-- constraint_schema is the name of the database
+-- select * from information_schema.referential_constraints where constraint_schema = 'relation'
+-- ALTER TABLE users DROP FOREIGN KEY fk_users_address_id;
+
+ALTER TABLE users DROP FOREIGN KEY fk_users_address_id^
+drop table if exists address^
+drop table if exists users^
+
+create table address
+(
+   id               bigint not null AUTO_INCREMENT,
+   addressline1 		varchar(100),
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8^
+
+create table users
+(
+   id             bigint not null AUTO_INCREMENT,
+   firstname			varchar(200),
+   address_id     bigint not null,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8^
+
+alter table users add constraint fk_users_address_id foreign key (address_id)
+      references address (id) on delete restrict on update restrict^
+-- -------------- end one to one ----------------
