@@ -46,6 +46,7 @@ public class StudentServiceImpl implements StudentService {
         courseSet.forEach(course -> {
             courseRepository.save(course);
         });
+        studentDTO.setId(student.getId());
         return studentDTO;
     }
 }
