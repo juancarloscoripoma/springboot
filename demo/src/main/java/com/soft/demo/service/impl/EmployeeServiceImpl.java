@@ -44,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee(employeeDTO.getFirstname(),employeeDTO.getLastname(),employeeDTO.getSalary());
 
         Employee finalEmployee = employee;
-        employeeDTO.getPhone().forEach((pho) -> {
+        employeeDTO.getPhone().forEach(pho -> {
             Phone phone = new Phone(pho.getType(), pho.getAreacode(), pho.getNumber(), finalEmployee);
             result.add(phone);
         });
